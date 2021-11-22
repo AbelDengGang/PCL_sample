@@ -1,4 +1,4 @@
-﻿#include <laser_geometry/laser_geometry.h>
+#include <laser_geometry/laser_geometry.h>
 #include <pcl/io/pcd_io.h>
 #include <pcl_ros/point_cloud.h>
 #include <ros/ros.h>
@@ -14,19 +14,6 @@ static ros::Publisher cloud_pub;
 static laser_geometry::LaserProjection projector_;
 static boost::shared_ptr<tf::TransformListener> plistener_;
 void scanCallback(const sensor_msgs::LaserScan::ConstPtr &scan) {
-#if 0
-  int count = scan->scan_time / scan->time_increment;
-  printf("[RPLIDAR INFO]: I heard a laser scan %s[%d]:\n",
-         scan->header.frame_id.c_str(), count);
-  printf("[RPLIDAR INFO]: angle_range : [%f, %f]\n", RAD2DEG(scan->angle_min),
-         RAD2DEG(scan->angle_max));
-
-  for (int i = 0; i < count; i++) {
-    float degree = RAD2DEG(scan->angle_min + scan->angle_increment * i);
-    printf("[RPLIDAR INFO]: angle-distance : [%f, %f]\n", degree,
-           scan->ranges[i]);
-  }
-#endif
   sensor_msgs::PointCloud2 cloud;
   printf(" call transformLaserScanToPointCloud !\n");
   projector_.transformLaserScanToPointCloud("laser", *scan, cloud, *plistener_);
