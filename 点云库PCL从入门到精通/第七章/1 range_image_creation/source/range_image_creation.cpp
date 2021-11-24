@@ -1,9 +1,9 @@
-#include <pcl/range_image/range_image.h>
-int main (int argc, char** argv) {
+ï»¿#include <pcl/range_image/range_image.h>
+int main(int argc, char** argv) {
   pcl::PointCloud<pcl::PointXYZ> pointCloud;
- //Éú³ÉÊý¾Ý
-  for (float y=-0.5f; y<=0.5f; y+=0.01f) {
-    for (float z=-0.5f; z<=0.5f; z+=0.01f) {
+  //ç”Ÿæˆæ•°æ®
+  for (float y = -0.5f; y <= 0.5f; y += 0.01f) {
+    for (float z = -0.5f; z <= 0.5f; z += 0.01f) {
       pcl::PointXYZ point;
       point.x = 2.0f - y;
       point.y = y;
@@ -11,21 +11,25 @@ int main (int argc, char** argv) {
       pointCloud.points.push_back(point);
     }
   }
-  pointCloud.width = (uint32_t) pointCloud.points.size();
+  pointCloud.width = (uint32_t)pointCloud.points.size();
   pointCloud.height = 1;
-//ÒÔ1¶ÈÎª½Ç·Ö±æÂÊ£¬´ÓÉÏÃæ´´½¨µÄµãÔÆ´´½¨Éî¶ÈÍ¼Ïñ¡£
-  float angularResolution = (float) (  1.0f * (M_PI/180.0f));  
-// 1¶È×ª»¡¶È
-  float maxAngleWidth     = (float) (360.0f * (M_PI/180.0f));  
-// 360.0¶È×ª»¡¶È
-  float maxAngleHeight    = (float) (180.0f * (M_PI/180.0f)); 
-// 180.0¶È×ª»¡¶È
-  Eigen::Affine3f sensorPose = (Eigen::Affine3f)Eigen::Translation3f(0.0f, 0.0f, 0.0f);
-  pcl::RangeImage::CoordinateFrame coordinate_frame = pcl::RangeImage::CAMERA_FRAME;
-  float noiseLevel=0.00;
+  //ä»¥1åº¦ä¸ºè§’åˆ†è¾¨çŽ‡ï¼Œä»Žä¸Šé¢åˆ›å»ºçš„ç‚¹äº‘åˆ›å»ºæ·±åº¦å›¾åƒã€‚
+  float angularResolution = (float)(1.0f * (M_PI / 180.0f));
+  // 1åº¦è½¬å¼§åº¦
+  float maxAngleWidth = (float)(360.0f * (M_PI / 180.0f));
+  // 360.0åº¦è½¬å¼§åº¦
+  float maxAngleHeight = (float)(180.0f * (M_PI / 180.0f));
+  // 180.0åº¦è½¬å¼§åº¦
+  Eigen::Affine3f sensorPose =
+      (Eigen::Affine3f)Eigen::Translation3f(0.0f, 0.0f, 0.0f);
+  pcl::RangeImage::CoordinateFrame coordinate_frame =
+      pcl::RangeImage::CAMERA_FRAME;
+  float noiseLevel = 0.00;
   float minRange = 0.0f;
   int borderSize = 1;
   pcl::RangeImage rangeImage;
-  rangeImage.createFromPointCloud(pointCloud, angularResolution, maxAngleWidth, maxAngleHeight, sensorPose, coordinate_frame, noiseLevel, minRange, borderSize);
-std::cout << rangeImage << "\n";
+  rangeImage.createFromPointCloud(pointCloud, angularResolution, maxAngleWidth,
+                                  maxAngleHeight, sensorPose, coordinate_frame,
+                                  noiseLevel, minRange, borderSize);
+  std::cout << rangeImage << "\n";
 }
