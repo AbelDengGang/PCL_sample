@@ -1,39 +1,39 @@
+ï»¿#include <pcl/features/integral_image_normal.h>
+#include <pcl/features/normal_3d.h>
 #include <pcl/io/io.h>
 #include <pcl/io/pcd_io.h>
-#include <pcl/features/integral_image_normal.h>
-#include <pcl/visualization/cloud_viewer.h>
 #include <pcl/point_types.h>
-#include <pcl/features/normal_3d.h>
+#include <pcl/visualization/cloud_viewer.h>
 
-int
-main ()
- {
-//¼ÓÔØµãÔÆ
-pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
-pcl::io::loadPCDFile ("table_scene_lms400.pcd", *cloud);
-//¹À¼Æ·¨Ïß
-pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne;
-ne.setInputCloud (cloud);
-//´´½¨Ò»¸ö¿ÕµÄkdtree¶ÔÏó£¬²¢°ÑËü´«µİ¸ø·¨Ïß¹À¼Æ¶ÔÏó
-//»ùÓÚ¸ø³öµÄÊäÈëÊı¾İ¼¯£¬kdtree½«±»½¨Á¢
-pcl::search::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZ> ());
-ne.setSearchMethod (tree);
-//Êä³öÊı¾İ¼¯
-pcl::PointCloud<pcl::Normal>::Ptr cloud_normals (new pcl::PointCloud<pcl::Normal>);
-//Ê¹ÓÃ°ë¾¶ÔÚ²éÑ¯µãÖÜÎ§3ÀåÃ×·¶Î§ÄÚµÄËùÓĞÁÚÔªËØ
-ne.setRadiusSearch (0.03);
-//¼ÆËãÌØÕ÷Öµ
-ne.compute (*cloud_normals);
-// cloud_normals->points.size ()Ó¦¸ÃÓëinput cloud_downsampled->points.size ()ÓĞÏàÍ¬³ß´ç
-//·¨Ïß¿ÉÊÓ»¯
-pcl::visualization::PCLVisualizer viewer("PCL Viewer");
-viewer.setBackgroundColor (0.0, 0.0, 0.0);
-viewer.addPointCloudNormals<pcl::PointXYZ,pcl::Normal>(cloud, cloud_normals);
+int main() {
+  //åŠ è½½ç‚¹äº‘
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
+  pcl::io::loadPCDFile("table_scene_lms400.pcd", *cloud);
+  //ä¼°è®¡æ³•çº¿
+  pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne;
+  ne.setInputCloud(cloud);
+  //åˆ›å»ºä¸€ä¸ªç©ºçš„kdtreeå¯¹è±¡ï¼Œå¹¶æŠŠå®ƒä¼ é€’ç»™æ³•çº¿ä¼°è®¡å¯¹è±¡
+  //åŸºäºç»™å‡ºçš„è¾“å…¥æ•°æ®é›†ï¼Œkdtreeå°†è¢«å»ºç«‹
+  pcl::search::KdTree<pcl::PointXYZ>::Ptr tree(
+      new pcl::search::KdTree<pcl::PointXYZ>());
+  ne.setSearchMethod(tree);
+  //è¾“å‡ºæ•°æ®é›†
+  pcl::PointCloud<pcl::Normal>::Ptr cloud_normals(
+      new pcl::PointCloud<pcl::Normal>);
+  //ä½¿ç”¨åŠå¾„åœ¨æŸ¥è¯¢ç‚¹å‘¨å›´3å˜ç±³èŒƒå›´å†…çš„æ‰€æœ‰é‚»å…ƒç´ 
+  ne.setRadiusSearch(0.03);
+  //è®¡ç®—ç‰¹å¾å€¼
+  ne.compute(*cloud_normals);
+  // cloud_normals->points.size ()åº”è¯¥ä¸input cloud_downsampled->points.size
+  // ()æœ‰ç›¸åŒå°ºå¯¸
+  //æ³•çº¿å¯è§†åŒ–
+  pcl::visualization::PCLVisualizer viewer("PCL Viewer");
+  viewer.setBackgroundColor(0.0, 0.0, 0.0);
+  viewer.addPointCloudNormals<pcl::PointXYZ, pcl::Normal>(cloud, cloud_normals);
 
-while (!viewer.wasStopped ())
-{
-     viewer.spinOnce ();
-}
+  while (!viewer.wasStopped()) {
+    viewer.spinOnce();
+  }
 
-return 0;
+  return 0;
 }
