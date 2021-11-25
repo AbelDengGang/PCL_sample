@@ -1,28 +1,25 @@
- #include <pcl/io/io.h>
-     #include <pcl/io/pcd_io.h>
-     #include <pcl/features/integral_image_normal.h>
-     #include <pcl/visualization/cloud_viewer.h>
-     int
-     main ()
-     {
-             //º”‘ÿµ„‘∆
-             pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
-             pcl::io::loadPCDFile ("table_scene_mug_stereo_textured.pcd", *cloud);
-             //π¿º∆∑®œﬂ
-             pcl::PointCloud<pcl::Normal>::Ptr normals (new pcl::PointCloud<pcl::Normal>);
-             pcl::IntegralImageNormalEstimation<pcl::PointXYZ, pcl::Normal> ne;
-             ne.setNormalEstimationMethod (ne.AVERAGE_3D_GRADIENT);
-             ne.setMaxDepthChangeFactor(0.02f);
-             ne.setNormalSmoothingSize(10.0f);
-             ne.setInputCloud(cloud);
-             ne.compute(*normals);
-             //∑®œﬂø… ”ªØ
-             pcl::visualization::PCLVisualizer viewer("PCL Viewer");
-             viewer.setBackgroundColor (0.0, 0.0, 0.5);
-             viewer.addPointCloudNormals<pcl::PointXYZ,pcl::Normal>(cloud, normals);
-             while (!viewer.wasStopped ())
-             {
-               viewer.spinOnce ();
-             }
-             return 0;
-     }
+Ôªø#include <pcl/features/integral_image_normal.h>
+#include <pcl/io/io.h>
+#include <pcl/io/pcd_io.h>
+#include <pcl/visualization/cloud_viewer.h>
+int main() {
+  //Âä†ËΩΩÁÇπ‰∫ë
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
+  pcl::io::loadPCDFile("table_scene_mug_stereo_textured.pcd", *cloud);
+  //‰º∞ËÆ°Ê≥ïÁ∫ø
+  pcl::PointCloud<pcl::Normal>::Ptr normals(new pcl::PointCloud<pcl::Normal>);
+  pcl::IntegralImageNormalEstimation<pcl::PointXYZ, pcl::Normal> ne;
+  ne.setNormalEstimationMethod(ne.AVERAGE_3D_GRADIENT);
+  ne.setMaxDepthChangeFactor(0.02f);
+  ne.setNormalSmoothingSize(10.0f);
+  ne.setInputCloud(cloud);
+  ne.compute(*normals);
+  //Ê≥ïÁ∫øÂèØËßÜÂåñ
+  pcl::visualization::PCLVisualizer viewer("PCL Viewer");
+  viewer.setBackgroundColor(0.0, 0.0, 0.5);
+  viewer.addPointCloudNormals<pcl::PointXYZ, pcl::Normal>(cloud, normals);
+  while (!viewer.wasStopped()) {
+    viewer.spinOnce();
+  }
+  return 0;
+}
